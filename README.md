@@ -12,6 +12,7 @@ Materi yang diterapkan: Array · Struct · Pointer/Referensi · Sorting · Searc
 | **Repository** | https://github.com/FaizFanxzv/*(nama-repo)* |
 | **Status** | 🟡 **PROGRESS — Pengumpulan Tahap Awal** |
 | **Tanggal** | 14 Oktober 2026 |
+| **Website** | https://faizfanxzv.github.io/movietokutick/ |
 
 ---
 
