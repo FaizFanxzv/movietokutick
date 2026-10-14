@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieTokuTick — The Ultimate Tokusatsu Movie Experience</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="home">
+
+<!-- ===================== NOTIFIKASI STATUS PENGUMPULAN =====================
+     Banner ini tampil di bagian paling atas SEMUA halaman dan bersifat interaktif:
+     tombol "Detail" membuka keterangan lengkap, tombol "x" menyembunyikan banner,
+     lalu tombol mengambang di kiri bawah dipakai untuk menampilkannya kembali.
+     Statusnya tidak disimpan permanen (tanpa localStorage) sesuai batasan tugas. -->
+<div class="status-bar" id="statusBar">
+  <div class="wrap status-inner">
+    <span class="status-chip"><i></i>Progress</span>
+    <p class="status-text">
+      Pengumpulan tahap ini baru berupa <b>program dan link GitHub</b>.
+      <b>Video demonstrasi YouTube belum tersedia</b> dan akan menyusul pada pengumpulan berikutnya.
+    </p>
+    <span class="status-actions">
+      <button class="status-btn" id="statusDetailBtn" aria-expanded="false" aria-controls="statusDetail">
+        Detail <span class="caret">&#9662;</span>
+      </button>
+      <button class="status-close" id="statusCloseBtn" title="Sembunyikan notifikasi" aria-label="Sembunyikan notifikasi">&times;</button>
+    </span>
+  </div>
+
+  <div class="status-detail" id="statusDetail">
+    <div class="wrap status-detail-inner">
+      <div>
+        <h4>Sudah dikumpulkan</h4>
+        <ul>
+          <li><span>&#10003;</span><div><b>Program lengkap</b> — seluruh file sumber website, siap dijalankan langsung di browser.</div></li>
+          <li><span>&#10003;</span><div><b>Link repository GitHub</b> beserta README penjelasan.</div></li>
+          <li><span>&#10003;</span><div><b>Semua fitur inti berfungsi</b> — pencarian, pengurutan, pemilihan kursi, dan panel log algoritma.</div></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Belum dikumpulkan</h4>
+        <ul>
+          <li><span>&#8987;</span><div><b>Video demonstrasi YouTube</b> — masih dalam proses perekaman.</div></li>
+          <li><span>&#8987;</span><div><b>Aset poster film</b> — folder <code>assets/</code> masih kosong, kartu film sementara memakai placeholder.</div></li>
+        </ul>
+      </div>
+      <p class="status-note">
+        Catatan: seluruh data film, jadwal, harga, kursi, dan status Best Seller merupakan data simulasi
+        untuk keperluan tugas mata kuliah Struktur Data, bukan informasi bioskop sungguhan.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="ribbon">Data simulasi akademik — jadwal, harga, kursi, dan status Best Seller bukan data bioskop sungguhan</div>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo" id="tourLogo">
+      <div class="logo-mark">🎬</div>
+      <div>
+        <div class="logo-text">Movie<span>Toku</span>Tick</div>
+        <span class="logo-sub">Tokusatsu Cinema</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <nav class="nav-links" id="tourNav">
+        <a class="nav-link" data-nav="home" href="index.html">Beranda</a>
+        <a class="nav-link" data-nav="catalog" href="catalog.html">Katalog</a>
+        <a class="nav-link" data-nav="booking" href="booking.html">Pesan Tiket</a>
+        <a class="nav-link" data-nav="lab" href="structure-lab.html">Data Structure Lab</a>
+      </nav>
+      <button class="btn btn-sm" id="btnTour">🧭 Tur Panduan</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <span class="kicker">The Ultimate Tokusatsu Movie Experience</span>
+    <h1>Saatnya <em>Henshin</em> di Layar Lebar.</h1>
+    <p>Tempat berkumpulnya para penggemar Tokusatsu Jepang untuk menikmati film pilihan,
+       menjelajahi jadwal tayang, dan memesan tiket bioskop dengan mudah.</p>
+    <div class="hero-search" id="tourHeroSearch">
+      <input type="text" id="heroSearch" placeholder="Cari judul film… misalnya: Ultraman">
+      <button class="btn btn-primary" id="heroSearchBtn">Cari Film</button>
+    </div>
+    <div class="hero-stats">
+      <div><b id="statMovies">0</b><span>Judul Film</span></div>
+      <div><b id="statShows">0</b><span>Sesi Tayang</span></div>
+      <div><b id="statStudios">0</b><span>Studio</span></div>
+      <div><b id="statBest">0</b><span>Best Seller</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BEST SELLER ============================ -->
+<section id="tourBest">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>Pilihan Unggulan</small>Best Seller Minggu Ini</h2>
+      <p>Ditandai melalui properti <code>isBestSeller</code> pada objek sesi penayangan.
+         Label ini ditetapkan manual di dalam kode sebagai data simulasi.</p>
+    </div>
+    <div class="grid grid-movies" id="bestSellerGrid"></div>
+  </div>
+</section>
+
+<!-- ============================ PINTU MASUK ============================ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2><small>Mulai Dari Sini</small>Tiga Halaman Utama</h2>
+      <p>Website ini terdiri atas empat halaman HTML terpisah yang saling terhubung
+         melalui tautan relatif.</p>
+    </div>
+    <div class="features" id="tourFeatures">
+      <article class="feature">
+        <div class="ico">🎞️</div>
+        <h3>Katalog &amp; Jadwal</h3>
+        <p>Jelajahi seluruh sesi penayangan, cari dengan Linear Search, dan urutkan harga
+           dengan Bubble Sort. Setiap proses algoritma tercatat pada panel log.</p>
+        <a class="btn btn-primary btn-sm" href="catalog.html">Buka Katalog</a>
+      </article>
+      <article class="feature">
+        <div class="ico">🎟️</div>
+        <h3>Pemesanan Tiket</h3>
+        <p>Pilih sesi, tentukan kursi pada peta studio, lalu lihat ringkasan dan total harga.
+           Seluruh pemesanan bersifat simulasi tanpa pembayaran.</p>
+        <a class="btn btn-sm" href="booking.html">Pesan Tiket</a>
+      </article>
+      <article class="feature">
+        <div class="ico">🧪</div>
+        <h3>Data Structure Lab</h3>
+        <p>Panel khusus untuk Array Viewer, Struct Viewer, Pointer Viewer, Sorting Lab,
+           dan Searching Lab beserta penjelasan singkat tiap konsep.</p>
+        <a class="btn btn-sm" href="structure-lab.html">Buka Laboratorium</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px">
+          <div class="logo-mark">🎬</div>
+          <div><div class="logo-text">Movie<span>Toku</span>Tick</div>
+          <span class="logo-sub">Tokusatsu Cinema</span></div>
+        </div>
+        <p>The Ultimate Tokusatsu Movie Experience. Proyek tugas mata kuliah Struktur Data:
+           penerapan Array, Struct, Pointer/Referensi, Bubble Sort, dan Linear Search.</p>
+      </div>
+      <div>
+        <h5>Navigasi</h5>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="catalog.html">Katalog</a></li>
+          <li><a href="booking.html">Pesan Tiket</a></li>
+          <li><a href="structure-lab.html">Data Structure Lab</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Catatan Akademik</h5>
+        <ul>
+          <li>Tanpa database &amp; backend</li>
+          <li>Tanpa framework / library</li>
+          <li>Tanpa penyimpanan permanen</li>
+          <li>Data kembali ke kondisi awal saat halaman dimuat ulang</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 MovieTokuTick — proyek pembelajaran, bukan layanan bioskop sungguhan.</span>
+      <span>HTML5 · CSS3 · Vanilla JavaScript</span>
+    </div>
+  </div>
+</footer>
+
+<button class="status-reopen" id="statusReopen" title="Tampilkan kembali info pengumpulan">&#128204; Info Pengumpulan</button>
+
+<script src="js/data.js"></script>
+<script src="js/algorithms.js"></script>
+<script src="js/app.js"></script>
+<script src="js/guided-tour.js"></script>
+</body>
+</html>

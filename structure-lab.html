@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structure Lab — MovieTokuTick</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="lab">
+
+<!-- ===================== NOTIFIKASI STATUS PENGUMPULAN =====================
+     Banner ini tampil di bagian paling atas SEMUA halaman dan bersifat interaktif:
+     tombol "Detail" membuka keterangan lengkap, tombol "x" menyembunyikan banner,
+     lalu tombol mengambang di kiri bawah dipakai untuk menampilkannya kembali.
+     Statusnya tidak disimpan permanen (tanpa localStorage) sesuai batasan tugas. -->
+<div class="status-bar" id="statusBar">
+  <div class="wrap status-inner">
+    <span class="status-chip"><i></i>Progress</span>
+    <p class="status-text">
+      Pengumpulan tahap ini baru berupa <b>program dan link GitHub</b>.
+      <b>Video demonstrasi YouTube belum tersedia</b> dan akan menyusul pada pengumpulan berikutnya.
+    </p>
+    <span class="status-actions">
+      <button class="status-btn" id="statusDetailBtn" aria-expanded="false" aria-controls="statusDetail">
+        Detail <span class="caret">&#9662;</span>
+      </button>
+      <button class="status-close" id="statusCloseBtn" title="Sembunyikan notifikasi" aria-label="Sembunyikan notifikasi">&times;</button>
+    </span>
+  </div>
+
+  <div class="status-detail" id="statusDetail">
+    <div class="wrap status-detail-inner">
+      <div>
+        <h4>Sudah dikumpulkan</h4>
+        <ul>
+          <li><span>&#10003;</span><div><b>Program lengkap</b> — seluruh file sumber website, siap dijalankan langsung di browser.</div></li>
+          <li><span>&#10003;</span><div><b>Link repository GitHub</b> beserta README penjelasan.</div></li>
+          <li><span>&#10003;</span><div><b>Semua fitur inti berfungsi</b> — pencarian, pengurutan, pemilihan kursi, dan panel log algoritma.</div></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Belum dikumpulkan</h4>
+        <ul>
+          <li><span>&#8987;</span><div><b>Video demonstrasi YouTube</b> — masih dalam proses perekaman.</div></li>
+          <li><span>&#8987;</span><div><b>Aset poster film</b> — folder <code>assets/</code> masih kosong, kartu film sementara memakai placeholder.</div></li>
+        </ul>
+      </div>
+      <p class="status-note">
+        Catatan: seluruh data film, jadwal, harga, kursi, dan status Best Seller merupakan data simulasi
+        untuk keperluan tugas mata kuliah Struktur Data, bukan informasi bioskop sungguhan.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="ribbon">Data simulasi akademik — seluruh isi panel diambil dari data program yang sedang berjalan</div>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo" id="tourLogo">
+      <div class="logo-mark">🎬</div>
+      <div>
+        <div class="logo-text">Movie<span>Toku</span>Tick</div>
+        <span class="logo-sub">Tokusatsu Cinema</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <nav class="nav-links" id="tourNav">
+        <a class="nav-link" data-nav="home" href="index.html">Beranda</a>
+        <a class="nav-link" data-nav="catalog" href="catalog.html">Katalog</a>
+        <a class="nav-link" data-nav="booking" href="booking.html">Pesan Tiket</a>
+        <a class="nav-link" data-nav="lab" href="structure-lab.html">Data Structure Lab</a>
+      </nav>
+      <button class="btn btn-sm" id="btnTour">🧭 Tur Panduan</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="crumb">Laboratorium Tugas</div>
+    <h1>Data Structure Lab</h1>
+    <p>Lima panel untuk membedah Array, Struct, Pointer/Referensi, Sorting, dan Searching.
+       Semua contoh yang ditampilkan berasal dari data program yang sedang berjalan.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+
+    <div class="toolbar" style="margin-bottom:22px">
+      <div class="field-row">
+        <div class="field">
+          <label for="labSelect">Sesi untuk Struct &amp; Pointer Viewer</label>
+          <select id="labSelect"></select>
+        </div>
+        <div class="field">
+          <label>Data kerja saat ini</label>
+          <div style="padding:11px 0;font-size:.84rem;color:var(--muted)" id="labDataNote">—</div>
+        </div>
+        <div class="field">
+          <label>Kembalikan data kerja</label>
+          <button class="btn btn-ghost btn-sm" id="labResetData" style="margin-top:2px">Reset ke seluruh array master</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs" id="tourTabs">
+      <button class="tab active" data-tab="array">1 · Array Viewer</button>
+      <button class="tab" data-tab="struct">2 · Struct / Object</button>
+      <button class="tab" data-tab="pointer">3 · Pointer / Reference</button>
+      <button class="tab" data-tab="sorting">4 · Sorting Lab</button>
+      <button class="tab" data-tab="searching">5 · Searching Lab</button>
+    </div>
+
+    <!-- ===================== TAB 1 : ARRAY ===================== -->
+    <div class="tab-panel active" data-panel="array" id="tourArray">
+      <div class="explain">
+        <b>Array</b> adalah kumpulan data sejenis yang disimpan berurutan dan diakses melalui indeks
+        yang dimulai dari 0. Array master di proyek ini bernama <code>showtimes</code>; setiap indeks
+        menunjuk pada satu objek sesi penayangan. Urutan array master tidak pernah diubah oleh
+        Bubble Sort karena pengurutan selalu dikerjakan pada salinannya.
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b id="arrLen">0</b><span>showtimes.length</span></div>
+        <div class="stat"><b id="arrFirst">—</b><span>showtimes[0].id</span></div>
+        <div class="stat"><b id="arrLast">—</b><span>Indeks terakhir</span></div>
+        <div class="stat"><b id="arrSelected">—</b><span>Indeks terpilih</span></div>
+      </div>
+      <div class="table-scroll">
+        <table id="arrayTable">
+          <thead>
+            <tr><th>Indeks</th><th>ID Sesi</th><th>Judul Film</th><th>Tanggal</th><th>Jam</th><th>Studio</th><th>Harga</th><th>Kursi Tersedia</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===================== TAB 2 : STRUCT ===================== -->
+    <div class="tab-panel" data-panel="struct" id="tourStruct">
+      <div class="explain">
+        <b>Struct</b> pada C/C++ menggabungkan beberapa atribut berbeda tipe menjadi satu tipe data baru.
+        JavaScript tidak memiliki kata kunci <code>struct</code>, sehingga di sini digunakan
+        <b>objek JavaScript</b> sebagai representasi struct — bukan deklarasi struct yang sesungguhnya.
+        Satu objek mewakili satu sesi penayangan, dan array <code>showtimes</code> berisi banyak objek seperti ini.
+      </div>
+      <div class="kv" id="structKv"></div>
+      <h3 style="margin:22px 0 10px;font-size:.92rem">Bentuk objek sesi (setara deklarasi struct)</h3>
+      <pre class="code" id="structCode"></pre>
+    </div>
+
+    <!-- ===================== TAB 3 : POINTER ===================== -->
+    <div class="tab-panel" data-panel="pointer" id="tourPointer">
+      <div class="explain">
+        <b>Pointer / Referensi Objek.</b> Pada C/C++, pointer menyimpan alamat memori dan diakses
+        dengan operator <code>*</code> serta <code>-&gt;</code>, bahkan bisa dikenai aritmetika pointer.
+        JavaScript tidak memberikan akses ke alamat memori mentah; yang dipegang variabel adalah
+        <b>referensi</b> ke objek yang sama. Karena itu program ini menampilkan indeks master dan ID sesi
+        sebagai penunjuk identitas data, bukan alamat memori palsu.
+      </div>
+      <div id="pointerArea"></div>
+    </div>
+
+    <!-- ===================== TAB 4 : SORTING ===================== -->
+    <div class="tab-panel" data-panel="sorting" id="tourLabSort">
+      <div class="explain">
+        <b>Bubble Sort</b> membandingkan dua elemen bertetangga lalu menukarnya bila urutannya salah.
+        Proses diulang sampai tidak ada pertukaran lagi dalam satu putaran (<i>early termination</i>).
+        Perbandingan dilakukan pada atribut <code>price</code>, dan yang diurutkan adalah
+        <b>salinan</b> data kerja — array master tetap utuh.
+      </div>
+      <div class="toolbar-actions" style="margin:0 0 16px">
+        <button class="btn btn-primary btn-sm" id="labSortAsc">⬆ Termurah → Termahal</button>
+        <button class="btn btn-sm" id="labSortDesc">⬇ Termahal → Termurah</button>
+        <button class="btn btn-ghost btn-sm" id="labResetSortLog">Reset Log Sorting</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b id="labSortCmp">0</b><span>Perbandingan</span></div>
+        <div class="stat"><b id="labSortSwap">0</b><span>Pertukaran</span></div>
+        <div class="stat"><b id="labSortPass">0</b><span>Putaran (pass)</span></div>
+        <div class="stat"><b id="labSortDir">—</b><span>Arah urut</span></div>
+      </div>
+      <div class="log-box" id="labSortLogBox"></div>
+    </div>
+
+    <!-- ===================== TAB 5 : SEARCHING ===================== -->
+    <div class="tab-panel" data-panel="searching" id="tourLabSearch">
+      <div class="explain">
+        <b>Linear Search</b> memeriksa elemen satu per satu dari indeks 0 sampai elemen terakhir.
+        Setiap kriteria yang diisi dibandingkan dengan atribut objek; kriteria yang dikosongkan tidak
+        menjadi pembatas. Pencocokan teks ditulis manual dan tidak membedakan huruf besar atau kecil.
+        Kompleksitas waktunya O(n).
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="labQTitle">Judul Film</label><input type="text" id="labQTitle" placeholder="kosongkan = semua"></div>
+        <div class="field"><label for="labQFranchise">Franchise / Genre</label><input type="text" id="labQFranchise" placeholder="kosongkan = semua"></div>
+        <div class="field"><label for="labQDate">Tanggal Tayang</label><select id="labQDate"><option value="">Semua tanggal</option></select></div>
+      </div>
+      <div class="toolbar-actions" style="margin:16px 0">
+        <button class="btn btn-primary btn-sm" id="labBtnSearch">🔍 Jalankan Linear Search</button>
+        <button class="btn btn-ghost btn-sm" id="labResetSearchLog">Reset Log Searching</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b id="labSrcChecked">0</b><span>Elemen diperiksa</span></div>
+        <div class="stat"><b id="labSrcFound">0</b><span>Sesi ditemukan</span></div>
+        <div class="stat"><b id="labSrcCriteria">0</b><span>Kriteria aktif</span></div>
+        <div class="stat"><b id="labSrcStatus">—</b><span>Status</span></div>
+      </div>
+      <div class="log-box" id="labSearchLogBox"></div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px">
+          <div class="logo-mark">🎬</div>
+          <div><div class="logo-text">Movie<span>Toku</span>Tick</div>
+          <span class="logo-sub">Tokusatsu Cinema</span></div>
+        </div>
+        <p>The Ultimate Tokusatsu Movie Experience. Proyek tugas mata kuliah Struktur Data:
+           penerapan Array, Struct, Pointer/Referensi, Bubble Sort, dan Linear Search.</p>
+      </div>
+      <div>
+        <h5>Navigasi</h5>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="catalog.html">Katalog</a></li>
+          <li><a href="booking.html">Pesan Tiket</a></li>
+          <li><a href="structure-lab.html">Data Structure Lab</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Catatan Akademik</h5>
+        <ul>
+          <li>Objek JavaScript = representasi struct, bukan struct C/C++</li>
+          <li>Referensi objek ≠ pointer mentah C/C++</li>
+          <li>Log dihasilkan dari proses algoritma yang nyata</li>
+          <li>Tanpa penyimpanan permanen</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 MovieTokuTick — proyek pembelajaran, bukan layanan bioskop sungguhan.</span>
+      <span>HTML5 · CSS3 · Vanilla JavaScript</span>
+    </div>
+  </div>
+</footer>
+
+<button class="status-reopen" id="statusReopen" title="Tampilkan kembali info pengumpulan">&#128204; Info Pengumpulan</button>
+
+<script src="js/data.js"></script>
+<script src="js/algorithms.js"></script>
+<script src="js/app.js"></script>
+<script src="js/guided-tour.js"></script>
+</body>
+</html>

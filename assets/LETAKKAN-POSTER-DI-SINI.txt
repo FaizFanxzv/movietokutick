@@ -1,0 +1,27 @@
+LETAKKAN FILE POSTER FILM DI FOLDER INI
+=======================================
+
+Nama file yang dipakai oleh program (lihat properti posterPath di js/data.js):
+
+  poster-film-01.jpg  ->  Shin Godzilla                              (sesi ST-001, ST-002)
+  poster-film-02.jpg  ->  Shin Ultraman                              (sesi ST-003, ST-012)
+  poster-film-03.jpg  ->  Shin Kamen Rider                           (sesi ST-004, ST-005)
+  poster-film-04.jpg  ->  Godzilla Minus One                         (sesi ST-006)
+  poster-film-05.jpg  ->  Kamen Rider Heisei Generations FOREVER     (sesi ST-007)
+  poster-film-06.jpg  ->  GARO: Divine Flame                         (sesi ST-008)
+  poster-film-07.jpg  ->  Kaizoku Sentai Gokaiger: The Movie         (sesi ST-009, ST-011)
+  poster-film-08.jpg  ->  Space Sheriff Gavan: The Movie             (sesi ST-010)
+
+Ukuran yang disarankan : rasio 2:3 potret, misalnya 600 x 900 piksel.
+Format                 : .jpg (boleh diganti ke .png asalkan posterPath ikut disesuaikan).
+
+Cara mengganti:
+1. Salin gambar Anda ke folder ini dengan nama di atas, ATAU
+2. Buka js/data.js, cari komentar "GANTI POSTER DI SINI", lalu ubah nilai posterPath
+   menjadi nama file milik Anda.
+
+Jika file poster belum tersedia, kartu film otomatis menampilkan placeholder bertuliskan
+"Masukkan Poster Film di Sini" dengan ukuran kartu yang tetap. Mengganti poster tidak
+memengaruhi logika Bubble Sort maupun Linear Search.
+
+File .txt ini boleh dihapus setelah poster dimasukkan.

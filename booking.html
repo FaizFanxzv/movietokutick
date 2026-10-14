@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesan Tiket — MovieTokuTick</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="booking">
+
+<!-- ===================== NOTIFIKASI STATUS PENGUMPULAN =====================
+     Banner ini tampil di bagian paling atas SEMUA halaman dan bersifat interaktif:
+     tombol "Detail" membuka keterangan lengkap, tombol "x" menyembunyikan banner,
+     lalu tombol mengambang di kiri bawah dipakai untuk menampilkannya kembali.
+     Statusnya tidak disimpan permanen (tanpa localStorage) sesuai batasan tugas. -->
+<div class="status-bar" id="statusBar">
+  <div class="wrap status-inner">
+    <span class="status-chip"><i></i>Progress</span>
+    <p class="status-text">
+      Pengumpulan tahap ini baru berupa <b>program dan link GitHub</b>.
+      <b>Video demonstrasi YouTube belum tersedia</b> dan akan menyusul pada pengumpulan berikutnya.
+    </p>
+    <span class="status-actions">
+      <button class="status-btn" id="statusDetailBtn" aria-expanded="false" aria-controls="statusDetail">
+        Detail <span class="caret">&#9662;</span>
+      </button>
+      <button class="status-close" id="statusCloseBtn" title="Sembunyikan notifikasi" aria-label="Sembunyikan notifikasi">&times;</button>
+    </span>
+  </div>
+
+  <div class="status-detail" id="statusDetail">
+    <div class="wrap status-detail-inner">
+      <div>
+        <h4>Sudah dikumpulkan</h4>
+        <ul>
+          <li><span>&#10003;</span><div><b>Program lengkap</b> — seluruh file sumber website, siap dijalankan langsung di browser.</div></li>
+          <li><span>&#10003;</span><div><b>Link repository GitHub</b> beserta README penjelasan.</div></li>
+          <li><span>&#10003;</span><div><b>Semua fitur inti berfungsi</b> — pencarian, pengurutan, pemilihan kursi, dan panel log algoritma.</div></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Belum dikumpulkan</h4>
+        <ul>
+          <li><span>&#8987;</span><div><b>Video demonstrasi YouTube</b> — masih dalam proses perekaman.</div></li>
+          <li><span>&#8987;</span><div><b>Aset poster film</b> — folder <code>assets/</code> masih kosong, kartu film sementara memakai placeholder.</div></li>
+        </ul>
+      </div>
+      <p class="status-note">
+        Catatan: seluruh data film, jadwal, harga, kursi, dan status Best Seller merupakan data simulasi
+        untuk keperluan tugas mata kuliah Struktur Data, bukan informasi bioskop sungguhan.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="ribbon">Data simulasi akademik — jadwal, harga, kursi, dan status Best Seller bukan data bioskop sungguhan</div>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo" id="tourLogo">
+      <div class="logo-mark">🎬</div>
+      <div>
+        <div class="logo-text">Movie<span>Toku</span>Tick</div>
+        <span class="logo-sub">Tokusatsu Cinema</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <nav class="nav-links" id="tourNav">
+        <a class="nav-link" data-nav="home" href="index.html">Beranda</a>
+        <a class="nav-link" data-nav="catalog" href="catalog.html">Katalog</a>
+        <a class="nav-link" data-nav="booking" href="booking.html">Pesan Tiket</a>
+        <a class="nav-link" data-nav="lab" href="structure-lab.html">Data Structure Lab</a>
+      </nav>
+      <button class="btn btn-sm" id="btnTour">🧭 Tur Panduan</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="crumb">Pemesanan Simulasi</div>
+    <h1>Pilih Kursi &amp; Pesan Tiket</h1>
+    <p>Sesi penayangan dikirim dari katalog melalui parameter URL
+       (contoh: <code>booking.html?id=ST-004</code>), lalu objeknya dicari manual di array master.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+
+    <div class="panel" id="tourSession" style="margin-bottom:22px">
+      <h3><span class="dot"></span>Sesi Penayangan</h3>
+      <p class="hint">Pilih dari daftar berikut, atau tekan tombol <b>Pesan</b> pada salah satu kartu di halaman katalog.</p>
+      <div class="field">
+        <label for="sessionSelect">Daftar sesi pada array master <code>showtimes</code></label>
+        <select id="sessionSelect"></select>
+      </div>
+      <a class="btn btn-ghost btn-sm" href="catalog.html" style="margin-top:14px">← Kembali ke katalog</a>
+    </div>
+
+    <div class="panel" id="tourDetail" style="margin-bottom:22px">
+      <h3><span class="dot"></span>Detail Sesi &amp; Referensi Objek</h3>
+      <p class="hint">Nilai di bawah dibaca langsung dari objek pada array master melalui indeks terpilih.</p>
+      <div id="sessionDetail"></div>
+    </div>
+
+    <div class="booking-grid">
+      <div class="panel" id="tourSeats">
+        <h3><span class="dot"></span>Peta Kursi Studio</h3>
+        <p class="hint" id="seatHint">Belum ada sesi yang dipilih.</p>
+        <div id="seatArea">
+          <div class="empty">Pilih sesi penayangan terlebih dahulu.</div>
+        </div>
+      </div>
+
+      <div class="panel" id="tourSummary">
+        <h3><span class="dot"></span>Ringkasan Pemesanan</h3>
+        <p class="hint">Total harga = jumlah kursi × harga tiket sesi terpilih.</p>
+        <div id="summaryArea">
+          <div class="empty">Ringkasan akan muncul setelah sesi dan kursi dipilih.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice" id="tourDisclaimer" style="margin-top:22px">
+      <b>Catatan status data.</b> Pemilihan sesi dan kursi hanya disimpan di memori selama halaman
+      pemesanan ini terbuka. Proyek ini tidak memakai <code>localStorage</code>,
+      <code>sessionStorage</code>, IndexedDB, database, maupun backend. Begitu halaman dimuat ulang
+      atau Anda berpindah halaman, seluruh data simulasi kembali ke kondisi awal — termasuk kursi
+      yang tadi ditandai terpesan. Tidak ada transaksi dan pembayaran sungguhan.
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px">
+          <div class="logo-mark">🎬</div>
+          <div><div class="logo-text">Movie<span>Toku</span>Tick</div>
+          <span class="logo-sub">Tokusatsu Cinema</span></div>
+        </div>
+        <p>The Ultimate Tokusatsu Movie Experience. Proyek tugas mata kuliah Struktur Data:
+           penerapan Array, Struct, Pointer/Referensi, Bubble Sort, dan Linear Search.</p>
+      </div>
+      <div>
+        <h5>Navigasi</h5>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="catalog.html">Katalog</a></li>
+          <li><a href="booking.html">Pesan Tiket</a></li>
+          <li><a href="structure-lab.html">Data Structure Lab</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Catatan Akademik</h5>
+        <ul>
+          <li>Tanpa database &amp; backend</li>
+          <li>Tanpa framework / library</li>
+          <li>Tanpa penyimpanan permanen</li>
+          <li>ID sesi dikirim lewat parameter URL</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 MovieTokuTick — proyek pembelajaran, bukan layanan bioskop sungguhan.</span>
+      <span>HTML5 · CSS3 · Vanilla JavaScript</span>
+    </div>
+  </div>
+</footer>
+
+<button class="status-reopen" id="statusReopen" title="Tampilkan kembali info pengumpulan">&#128204; Info Pengumpulan</button>
+
+<script src="js/data.js"></script>
+<script src="js/algorithms.js"></script>
+<script src="js/app.js"></script>
+<script src="js/guided-tour.js"></script>
+</body>
+</html>
